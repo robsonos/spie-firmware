@@ -10,6 +10,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Commit lint
+        uses: wagoid/commitlint-github-action@v6
+
       - name: Cache PlatformIO packages
         uses: actions/cache@v4
         with:
