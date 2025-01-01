@@ -5,7 +5,9 @@
   "editor.wordWrapColumn": 120,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "files.insertFinalNewline": true,
+  "files.eol": "\n",
   "[cpp]": { "editor.defaultFormatter": "ms-vscode.cpptools" },
+  "[python]": { "editor.defaultFormatter": "ms-python.autopep8" },
   "terminal.integrated.scrollback": 10000,
 
   // Todo tree settings
