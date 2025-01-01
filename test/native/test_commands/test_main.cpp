@@ -1,6 +1,7 @@
 #include <Arduino.h>
+#include <Context.h>
+#include <Parser.h>
 #include <unity.h>
-#include "main.cpp"
 
 using namespace fakeit;
 
@@ -51,17 +52,17 @@ TestSupport testSupport;
 void test_pointsPerWave()
 {
     SineWaveConfig config = {12, 1, 500, 1000, 0, 0.0, false};
-    TEST_ASSERT_EQUAL_UINT16(500, config.getPointsPerWave());
-    config.signalFrequency = 2;
-    TEST_ASSERT_EQUAL_UINT16(250, config.getPointsPerWave());
+    TEST_ASSERT_EQUAL_UINT16(500, ctx.config.getPointsPerWave());
+    ctx.config.signalFrequency = 2;
+    TEST_ASSERT_EQUAL_UINT16(250, ctx.config.getPointsPerWave());
 }
 
 void test_samplingInterval()
 {
     SineWaveConfig config = {12, 1, 500, 1000, 0, 0.0, false};
-    TEST_ASSERT_EQUAL_UINT32(2000, config.getSamplingInterval());
-    config.samplingFrequency = 1000;
-    TEST_ASSERT_EQUAL_UINT32(1000, config.getSamplingInterval());
+    TEST_ASSERT_EQUAL_UINT32(2000, ctx.config.getSamplingInterval());
+    ctx.config.samplingFrequency = 1000;
+    TEST_ASSERT_EQUAL_UINT32(1000, ctx.config.getSamplingInterval());
 }
 
 void test_AT_NUMPHASES_get()
@@ -71,7 +72,7 @@ void test_AT_NUMPHASES_get()
 
     // Setup test conditions
     String input = "AT+NUMPHASES?\n";
-    String expectedResponse = String("+NUMPHASES: ") + config.numPhases + "\n";
+    String expectedResponse = String("+NUMPHASES: ") + ctx.config.numPhases + "\n";
 
     // Run method
     testSupport.putRxBuffer(input.c_str());
@@ -99,7 +100,7 @@ void test_AT_NUMPHASES_set()
 
     // Test results
     TEST_ASSERT_EQUAL_STRING(expectedResponse.c_str(), actualResponse.c_str());
-    TEST_ASSERT_EQUAL_UINT16(numPhases, config.numPhases);
+    TEST_ASSERT_EQUAL_UINT16(numPhases, ctx.config.numPhases);
 }
 
 void test_AT_SIGNALFREQ_get()
@@ -109,7 +110,7 @@ void test_AT_SIGNALFREQ_get()
 
     // Setup test conditions
     String input = "AT+SIGNALFREQ?\n";
-    String expectedResponse = String("+SIGNALFREQ: ") + config.signalFrequency + "\n";
+    String expectedResponse = String("+SIGNALFREQ: ") + ctx.config.signalFrequency + "\n";
 
     // Run method
     testSupport.putRxBuffer(input.c_str());
@@ -137,7 +138,7 @@ void test_AT_SIGNALFREQ_set()
 
     // Run method
     TEST_ASSERT_EQUAL_STRING(expectedResponse.c_str(), actualResponse.c_str());
-    TEST_ASSERT_EQUAL_UINT16(signalFrequency, config.signalFrequency);
+    TEST_ASSERT_EQUAL_UINT16(signalFrequency, ctx.config.signalFrequency);
 }
 
 void test_AT_SAMPLINGFREQ_get()
@@ -147,7 +148,7 @@ void test_AT_SAMPLINGFREQ_get()
 
     // Setup test conditions
     String input = "AT+SAMPLINGFREQ?\n";
-    String expectedResponse = String("+SAMPLINGFREQ: ") + config.samplingFrequency + "\n";
+    String expectedResponse = String("+SAMPLINGFREQ: ") + ctx.config.samplingFrequency + "\n";
 
     // Run method
     testSupport.putRxBuffer(input.c_str());
@@ -175,7 +176,7 @@ void test_AT_SAMPLINGFREQ_set()
 
     // Test results
     TEST_ASSERT_EQUAL_STRING(expectedResponse.c_str(), actualResponse.c_str());
-    TEST_ASSERT_EQUAL_UINT16(samplingFrequency, config.samplingFrequency);
+    TEST_ASSERT_EQUAL_UINT16(samplingFrequency, ctx.config.samplingFrequency);
 }
 
 void test_AT_AMPLITUDE_get()
@@ -185,7 +186,7 @@ void test_AT_AMPLITUDE_get()
 
     // Setup test conditions
     String input = "AT+AMPLITUDE?\n";
-    String expectedResponse = String("+AMPLITUDE: ") + config.amplitude + "\n";
+    String expectedResponse = String("+AMPLITUDE: ") + ctx.config.amplitude + "\n";
 
     // Run method
     testSupport.putRxBuffer(input.c_str());
@@ -213,7 +214,7 @@ void test_AT_AMPLITUDE_set()
 
     // Test results
     TEST_ASSERT_EQUAL_STRING(expectedResponse.c_str(), actualResponse.c_str());
-    TEST_ASSERT_EQUAL_INT16(amplitude, config.amplitude);
+    TEST_ASSERT_EQUAL_INT16(amplitude, ctx.config.amplitude);
 }
 
 void test_AT_OFFSET_get()
@@ -223,7 +224,7 @@ void test_AT_OFFSET_get()
 
     // Setup test conditions
     String input = "AT+OFFSET?\n";
-    String expectedResponse = String("+OFFSET: ") + config.offset + "\n";
+    String expectedResponse = String("+OFFSET: ") + ctx.config.offset + "\n";
 
     // Run method
     testSupport.putRxBuffer(input.c_str());
@@ -251,7 +252,7 @@ void test_AT_OFFSET_set()
 
     // Test results
     TEST_ASSERT_EQUAL_STRING(expectedResponse.c_str(), actualResponse.c_str());
-    TEST_ASSERT_EQUAL_INT16(offset, config.offset);
+    TEST_ASSERT_EQUAL_INT16(offset, ctx.config.offset);
 }
 
 void test_AT_ERRORPERCENT_get()
@@ -261,7 +262,7 @@ void test_AT_ERRORPERCENT_get()
 
     // Setup test conditions
     String input = "AT+ERRORPERCENT?\n";
-    String expectedResponse = String("+ERRORPERCENT: ") + config.errorPercentage + "\n";
+    String expectedResponse = String("+ERRORPERCENT: ") + ctx.config.errorPercentage + "\n";
 
     // Run method
     testSupport.putRxBuffer(input.c_str());
@@ -289,7 +290,7 @@ void test_AT_ERRORPERCENT_set()
 
     // Test results
     TEST_ASSERT_EQUAL_STRING(expectedResponse.c_str(), actualResponse.c_str());
-    TEST_ASSERT_EQUAL_FLOAT(errorPercentage, config.errorPercentage);
+    TEST_ASSERT_EQUAL_FLOAT(errorPercentage, ctx.config.errorPercentage);
 }
 
 void test_AT_ALL()
@@ -299,14 +300,14 @@ void test_AT_ALL()
 
     // Setup test conditions
     String input = "AT+ALL?\n";
-    String expectedResponse = String("+NUMPHASES: ") + config.numPhases + "\n" +
-                              "+SIGNALFREQ: " + config.signalFrequency + "\n" +
-                              "+SAMPLINGFREQ: " + config.samplingFrequency + "\n" +
-                              "+AMPLITUDE: " + config.amplitude + "\n" +
-                              "+OFFSET: " + config.offset + "\n" +
-                              "+ERRORPERCENT: " + config.errorPercentage + "\n" +
-                              "+POINTSPERWAVE: " + config.getPointsPerWave() + "\n" +
-                              "+SAMPLINGINTERVAL: " + config.getSamplingInterval() + "\n";
+    String expectedResponse = String("+NUMPHASES: ") + ctx.config.numPhases + "\n" +
+                              "+SIGNALFREQ: " + ctx.config.signalFrequency + "\n" +
+                              "+SAMPLINGFREQ: " + ctx.config.samplingFrequency + "\n" +
+                              "+AMPLITUDE: " + ctx.config.amplitude + "\n" +
+                              "+OFFSET: " + ctx.config.offset + "\n" +
+                              "+ERRORPERCENT: " + ctx.config.errorPercentage + "\n" +
+                              "+POINTSPERWAVE: " + ctx.config.getPointsPerWave() + "\n" +
+                              "+SAMPLINGINTERVAL: " + ctx.config.getSamplingInterval() + "\n";
 
     // Run method
     testSupport.putRxBuffer(input.c_str());
