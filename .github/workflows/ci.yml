@@ -1,0 +1,68 @@
+name: Continuous integration
+on:
+  push:
+    branches:
+      - dev
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Commit lint
+        uses: wagoid/commitlint-github-action@v6
+
+      - name: Cache PlatformIO packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pip
+            ~/.platformio/.cache
+          key: ${{ runner.os }}-pio
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: '.python-version'
+
+      - name: Install PlatformIO Core
+        run: pip install --upgrade platformio
+
+      - name: Run cpp check
+        run: pio check
+
+      - name: Build unit tests
+        run: pio test
+
+      - name: Build code
+        run: pio run -e uno
+
+  analyze-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Semantic release verify
+        id: semantic
+        uses: cycjimmy/semantic-release-action@v4
+        with:
+          dry_run: true
+          branch: dev
+          extra_plugins: |
+            @semantic-release/commit-analyzer
+            @semantic-release/release-notes-generator
+            @semantic-release/changelog
+            @semantic-release/exec
+            @semantic-release/git
+            @semantic-release/github
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Add to job summary
+        if: ${{ steps.semantic.outputs.new_release_version != '' }}
+        run: |
+          echo "${{ steps.semantic.outputs.new_release_version }} will be released" >> $GITHUB_STEP_SUMMARY
