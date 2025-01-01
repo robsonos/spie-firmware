@@ -117,16 +117,19 @@ void processATCommand(Stream &stream)
         {
             response = String("+ERRORPERCENT: ") + ctx.config.errorPercentage;
         }
+        else if (cmdKey == "AT+VERSION?")
+        {
+            response = String("+VERSION: ") + VERSION;
+        }
         else if (cmdKey == "AT+ALL?")
         {
             response = String("+NUMPHASES: ") + ctx.config.numPhases + "\n" +
-                       String("+SIGNALFREQ: ") + ctx.config.signalFrequency + "\n" +
-                       String("+SAMPLINGFREQ: ") + ctx.config.samplingFrequency + "\n" +
-                       String("+AMPLITUDE: ") + ctx.config.amplitude + "\n" +
-                       String("+OFFSET: ") + ctx.config.offset + "\n" +
-                       String("+ERRORPERCENT: ") + ctx.config.errorPercentage + "\n" +
-                       String("+POINTSPERWAVE: ") + ctx.config.getPointsPerWave() + "\n" +
-                       String("+SAMPLINGINTERVAL: ") + ctx.config.getSamplingInterval();
+                       "+SIGNALFREQ: " + ctx.config.signalFrequency + "\n" +
+                       "+SAMPLINGFREQ: " + ctx.config.samplingFrequency + "\n" +
+                       "+AMPLITUDE: " + ctx.config.amplitude + "\n" +
+                       "+OFFSET: " + ctx.config.offset + "\n" +
+                       "+ERRORPERCENT: " + ctx.config.errorPercentage + "\n" +
+                       "+VERSION: " + VERSION;
         }
         else
         {

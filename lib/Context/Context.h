@@ -1,6 +1,6 @@
 #pragma once
 
-#define FIRMWARE_VERSION "1.0.0" // INFO: line used by builder. Do not change it
+#define VERSION "1.0.0" // INFO: line used by builder. Do not change it
 
 #include <Arduino.h>
 

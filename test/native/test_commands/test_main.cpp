@@ -52,17 +52,17 @@ TestSupport testSupport;
 void test_pointsPerWave()
 {
     SineWaveConfig config = {12, 1, 500, 1000, 0, 0.0, false};
-    TEST_ASSERT_EQUAL_UINT16(500, ctx.config.getPointsPerWave());
-    ctx.config.signalFrequency = 2;
-    TEST_ASSERT_EQUAL_UINT16(250, ctx.config.getPointsPerWave());
+    TEST_ASSERT_EQUAL_UINT16(500, config.getPointsPerWave());
+    config.signalFrequency = 2;
+    TEST_ASSERT_EQUAL_UINT16(250, config.getPointsPerWave());
 }
 
 void test_samplingInterval()
 {
     SineWaveConfig config = {12, 1, 500, 1000, 0, 0.0, false};
-    TEST_ASSERT_EQUAL_UINT32(2000, ctx.config.getSamplingInterval());
-    ctx.config.samplingFrequency = 1000;
-    TEST_ASSERT_EQUAL_UINT32(1000, ctx.config.getSamplingInterval());
+    TEST_ASSERT_EQUAL_UINT32(2000, config.getSamplingInterval());
+    config.samplingFrequency = 1000;
+    TEST_ASSERT_EQUAL_UINT32(1000, config.getSamplingInterval());
 }
 
 void test_AT_NUMPHASES_get()
@@ -401,6 +401,24 @@ void test_AT_ERRORPERCENT_invalid_set()
     TEST_ASSERT_EQUAL_STRING(expectedResponse.c_str(), actualResponse.c_str());
 }
 
+void test_AT_VERSION_get()
+{
+    // Setup stream
+    Stream *stream = ArduinoFakeMock(Stream);
+
+    // Setup test conditions
+    String input = "AT+VERSION?\n";
+    String expectedResponse = String("+VERSION: ") + VERSION + "\n";
+
+    // Run method
+    testSupport.putRxBuffer(input.c_str());
+    processATCommand(*stream);
+    String actualResponse = testSupport.getTxBuffer();
+
+    // Test results
+    TEST_ASSERT_EQUAL_STRING(expectedResponse.c_str(), actualResponse.c_str());
+}
+
 void test_AT_ALL()
 {
     // Setup stream
@@ -414,8 +432,7 @@ void test_AT_ALL()
                               "+AMPLITUDE: " + ctx.config.amplitude + "\n" +
                               "+OFFSET: " + ctx.config.offset + "\n" +
                               "+ERRORPERCENT: " + ctx.config.errorPercentage + "\n" +
-                              "+POINTSPERWAVE: " + ctx.config.getPointsPerWave() + "\n" +
-                              "+SAMPLINGINTERVAL: " + ctx.config.getSamplingInterval() + "\n";
+                              "+VERSION: " + VERSION "\n";
 
     // Run method
     testSupport.putRxBuffer(input.c_str());
@@ -496,6 +513,7 @@ int main(int argc, char **argv)
     RUN_TEST(test_AT_ERRORPERCENT_get);
     RUN_TEST(test_AT_ERRORPERCENT_set);
     RUN_TEST(test_AT_ERRORPERCENT_invalid_set);
+    RUN_TEST(test_AT_VERSION_get);
     RUN_TEST(test_AT_ALL);
     RUN_TEST(test_AT_INVALID);
     RUN_TEST(test_AT_UNKNOWN);
