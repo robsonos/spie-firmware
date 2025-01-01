@@ -115,7 +115,7 @@ module.exports = {
     [
       '@semantic-release/exec',
       {
-        prepareCmd: 'echo ${nextRelease.version} > VERSION && pio run',
+        prepareCmd: 'echo ${nextRelease.version} > VERSION && pio run -e uno',
       },
     ],
     [
