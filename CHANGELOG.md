@@ -1,3 +1,26 @@
+# [1.2.0](https://github.com/robsonos/spie-firmware/compare/v1.1.0...v1.2.0) (2025-01-01)
+
+
+* Merge pull request [#4](https://github.com/robsonos/spie-firmware/issues/4) from robsonos/dev ([68a714f](https://github.com/robsonos/spie-firmware/commit/68a714f48b63a7d082077a7e4631834bf718eb80))
+
+
+### Documentation :books:
+
+* add license ([552c38f](https://github.com/robsonos/spie-firmware/commit/552c38f0016c44a7de832da02d9e55b46d6e2509))
+* add README ([9e8d730](https://github.com/robsonos/spie-firmware/commit/9e8d730dc836d031c91fe212691dc8ba8b534ca9))
+
+
+### Features :sparkles:
+
+* add better error messages ([dce05d1](https://github.com/robsonos/spie-firmware/commit/dce05d137c5c3b0023498ff9745253cf472da0c4))
+* get version ([c9d2559](https://github.com/robsonos/spie-firmware/commit/c9d2559467cac94ae543462ea03013de47b7ca34))
+
+
+### Bug Fixes :bug:
+
+* parsing issues ([761e407](https://github.com/robsonos/spie-firmware/commit/761e407ad275dedfc529770ecfc367badfc53afb))
+* update default values ([202e720](https://github.com/robsonos/spie-firmware/commit/202e720b9472033dbfab76422bc91b57598d1a46))
+
 # [1.1.0](https://github.com/robsonos/spie-firmware/compare/v1.0.0...v1.1.0) (2025-01-01)
 
 
