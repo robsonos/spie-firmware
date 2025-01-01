@@ -1,6 +1,4 @@
-// #pragma once
-#ifndef PARSER_H
-#define PARSER_H
+#pragma once
 
 #include <Context.h>
 
@@ -78,5 +76,3 @@ void processATCommand(Stream &stream)
         stream.println("ERROR");
     }
 }
-
-#endif // PARSER_H

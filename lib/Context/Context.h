@@ -1,7 +1,6 @@
-// #pragma once
+#pragma once
 
-#ifndef CONTEXT_H
-#define CONTEXT_H
+#define FIRMWARE_VERSION "1.0.0" // INFO: line used by builder. Do not change it
 
 #include <Arduino.h>
 
@@ -45,5 +44,3 @@ struct Context
 };
 
 extern Context ctx;
-
-#endif // CONTEXT_H

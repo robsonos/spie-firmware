@@ -115,15 +115,20 @@ module.exports = {
     [
       '@semantic-release/exec',
       {
-        prepareCmd: 'echo ${nextRelease.version} > VERSION',
+        prepareCmd: 'echo ${nextRelease.version} > VERSION && pio run',
       },
     ],
     [
       '@semantic-release/git',
       {
-        assets: ['CHANGELOG.md', 'VERSION'],
+        assets: ['CHANGELOG.md'],
       },
     ],
-    '@semantic-release/github',
+    [
+      '@semantic-release/github',
+      {
+        assets: ['dist/**'],
+      },
+    ],
   ],
 };
