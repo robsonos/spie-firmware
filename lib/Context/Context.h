@@ -1,6 +1,6 @@
 #pragma once
 
-#define FIRMWARE_VERSION "1.0.0" // INFO: line used by builder. Do not change it
+#define VERSION "1.0.0" // INFO: line used by builder. Do not change it
 
 #include <Arduino.h>
 
@@ -32,9 +32,9 @@ struct Context
     Context() : config()
     {
         config = {
-            12,   // numPhases
+            3,    // numPhases
             1,    // signalFrequency
-            500,  // samplingFrequency
+            50,   // samplingFrequency
             1000, // amplitude
             0,    // offset
             0.0,  // errorPercentage

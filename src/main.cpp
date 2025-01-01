@@ -19,8 +19,6 @@ void loop()
     // Process serial input
     if (Serial.available())
     {
-        String command = Serial.readStringUntil('\n');
-        command.trim();
         processATCommand(Serial);
     }
 

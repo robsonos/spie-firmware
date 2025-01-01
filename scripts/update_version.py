@@ -16,7 +16,7 @@ def update_version(source, target, env):
         content = file.readlines()
 
     # Add line with usedConfFile to line 4 of versionFile
-    content[versionFileLine] = "#define FIRMWARE_VERSION \"" + firmware_version + \
+    content[versionFileLine] = "#define VERSION \"" + firmware_version + \
         "\" // INFO: line used by builder. Do not change it\n"
 
     # Write content to versionFile

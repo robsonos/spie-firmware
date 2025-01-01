@@ -5,74 +5,142 @@
 void processATCommand(Stream &stream)
 {
     String command = stream.readStringUntil('\n');
+    String response;
 
-    if (command.startsWith("AT+NUMPHASES="))
+    if (command.startsWith("AT+"))
     {
-        ctx.config.numPhases = command.substring(13).toInt();
-        stream.println("OK");
-    }
-    else if (command == "AT+NUMPHASES?")
-    {
-        stream.println(String("+NUMPHASES: ") + ctx.config.numPhases);
-    }
-    else if (command.startsWith("AT+SIGNALFREQ="))
-    {
-        ctx.config.signalFrequency = command.substring(14).toInt();
-        stream.println("OK");
-    }
-    else if (command == "AT+SIGNALFREQ?")
-    {
-        stream.println(String("+SIGNALFREQ: ") + ctx.config.signalFrequency);
-    }
-    else if (command.startsWith("AT+SAMPLINGFREQ="))
-    {
-        ctx.config.samplingFrequency = command.substring(16).toInt();
-        stream.println("OK");
-    }
-    else if (command == "AT+SAMPLINGFREQ?")
-    {
-        stream.println(String("+SAMPLINGFREQ: ") + ctx.config.samplingFrequency);
-    }
-    else if (command.startsWith("AT+AMPLITUDE="))
-    {
-        ctx.config.amplitude = command.substring(13).toInt();
-        stream.println("OK");
-    }
-    else if (command == "AT+AMPLITUDE?")
-    {
-        stream.println(String("+AMPLITUDE: ") + ctx.config.amplitude);
-    }
-    else if (command.startsWith("AT+OFFSET="))
-    {
-        ctx.config.offset = command.substring(10).toInt();
-        stream.println("OK");
-    }
-    else if (command == "AT+OFFSET?")
-    {
-        stream.println(String("+OFFSET: ") + ctx.config.offset);
-    }
-    else if (command.startsWith("AT+ERRORPERCENT="))
-    {
-        ctx.config.errorPercentage = command.substring(16).toFloat();
-        stream.println("OK");
-    }
-    else if (command == "AT+ERRORPERCENT?")
-    {
-        stream.println(String("+ERRORPERCENT: ") + ctx.config.errorPercentage);
-    }
-    else if (command == "AT+ALL?")
-    {
-        stream.println(String("+NUMPHASES: ") + ctx.config.numPhases);
-        stream.println(String("+SIGNALFREQ: ") + ctx.config.signalFrequency);
-        stream.println(String("+SAMPLINGFREQ: ") + ctx.config.samplingFrequency);
-        stream.println(String("+AMPLITUDE: ") + ctx.config.amplitude);
-        stream.println(String("+OFFSET: ") + ctx.config.offset);
-        stream.println(String("+ERRORPERCENT: ") + ctx.config.errorPercentage);
-        stream.println(String("+POINTSPERWAVE: ") + ctx.config.getPointsPerWave());
-        stream.println(String("+SAMPLINGINTERVAL: ") + ctx.config.getSamplingInterval());
+        // Extract the command and optional argument
+        int separatorIndex = command.indexOf('=');
+        String cmdKey = separatorIndex > 0 ? command.substring(0, separatorIndex) : command;
+        String cmdValue = separatorIndex > 0 ? command.substring(separatorIndex + 1) : "";
+
+        // Process commands using a switch-case equivalent
+        if (cmdKey == "AT+NUMPHASES")
+        {
+            int numPhases = cmdValue.toInt();
+            if (numPhases <= 0)
+            {
+                response = "ERROR: NUMPHASES must be positive.";
+            }
+            else
+            {
+                ctx.config.numPhases = numPhases;
+                response = "OK";
+            }
+        }
+        else if (cmdKey == "AT+SIGNALFREQ")
+        {
+            int signalFreq = cmdValue.toInt();
+            if (signalFreq <= 0)
+            {
+                response = "ERROR: SIGNALFREQ must be positive.";
+            }
+            else
+            {
+                ctx.config.signalFrequency = signalFreq;
+                response = "OK";
+            }
+        }
+        else if (cmdKey == "AT+SAMPLINGFREQ")
+        {
+            int samplingFreq = cmdValue.toInt();
+            if (samplingFreq <= 0)
+            {
+                response = "ERROR: SAMPLINGFREQ must be positive.";
+            }
+            else
+            {
+                ctx.config.samplingFrequency = samplingFreq;
+                response = "OK";
+            }
+        }
+        else if (cmdKey == "AT+AMPLITUDE")
+        {
+            int amplitude = cmdValue.toInt();
+            if (amplitude < 0)
+            {
+                response = "ERROR: AMPLITUDE must be zero or positive.";
+            }
+            else
+            {
+                ctx.config.amplitude = amplitude;
+                response = "OK";
+            }
+        }
+        else if (cmdKey == "AT+OFFSET")
+        {
+            int offset = cmdValue.toInt();
+            if (offset < -10000 || offset > 10000)
+            {
+                response = "ERROR: OFFSET must be between -10000 and 10000.";
+            }
+            else
+            {
+                ctx.config.offset = offset;
+                response = "OK";
+            }
+        }
+        else if (cmdKey == "AT+ERRORPERCENT")
+        {
+            float errorPercent = cmdValue.toFloat();
+            if (errorPercent < 0.0 || errorPercent > 100.0)
+            {
+                response = "ERROR: ERRORPERCENT must be between 0 and 100.";
+            }
+            else
+            {
+                ctx.config.errorPercentage = errorPercent;
+                response = "OK";
+            }
+        }
+        else if (cmdKey == "AT+NUMPHASES?")
+        {
+            response = String("+NUMPHASES: ") + ctx.config.numPhases;
+        }
+        else if (cmdKey == "AT+SIGNALFREQ?")
+        {
+            response = String("+SIGNALFREQ: ") + ctx.config.signalFrequency;
+        }
+        else if (cmdKey == "AT+SAMPLINGFREQ?")
+        {
+            response = String("+SAMPLINGFREQ: ") + ctx.config.samplingFrequency;
+        }
+        else if (cmdKey == "AT+AMPLITUDE?")
+        {
+            response = String("+AMPLITUDE: ") + ctx.config.amplitude;
+        }
+        else if (cmdKey == "AT+OFFSET?")
+        {
+            response = String("+OFFSET: ") + ctx.config.offset;
+        }
+        else if (cmdKey == "AT+ERRORPERCENT?")
+        {
+            response = String("+ERRORPERCENT: ") + ctx.config.errorPercentage;
+        }
+        else if (cmdKey == "AT+VERSION?")
+        {
+            response = String("+VERSION: ") + VERSION;
+        }
+        else if (cmdKey == "AT+ALL?")
+        {
+            response = String("+NUMPHASES: ") + ctx.config.numPhases + "\n" +
+                       "+SIGNALFREQ: " + ctx.config.signalFrequency + "\n" +
+                       "+SAMPLINGFREQ: " + ctx.config.samplingFrequency + "\n" +
+                       "+AMPLITUDE: " + ctx.config.amplitude + "\n" +
+                       "+OFFSET: " + ctx.config.offset + "\n" +
+                       "+ERRORPERCENT: " + ctx.config.errorPercentage + "\n" +
+                       "+VERSION: " + VERSION;
+        }
+        else
+        {
+            response = "ERROR: Unknown command.";
+        }
     }
     else
     {
-        stream.println("ERROR");
+        response = "ERROR: Invalid AT command format.";
     }
+
+    // Send the response back to the stream
+    stream.println(response);
 }
