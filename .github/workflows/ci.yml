@@ -34,3 +34,32 @@ jobs:
 
       - name: Build code
         run: pio run -e uno
+
+  analyze-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Semantic release verify
+        id: semantic
+        uses: cycjimmy/semantic-release-action@v4
+        with:
+          dry_run: true
+          branch: dev
+          extra_plugins: |
+            @semantic-release/commit-analyzer
+            @semantic-release/release-notes-generator
+            @semantic-release/changelog
+            @semantic-release/exec
+            @semantic-release/git
+            @semantic-release/github
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Add to job summary
+        if: ${{ steps.semantic.outputs.new_release_version != '' }}
+        run: |
+          echo "${{ steps.semantic.outputs.new_release_version }} will be released" >> $GITHUB_STEP_SUMMARY
