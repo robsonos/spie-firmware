@@ -127,6 +127,8 @@ module.exports = {
     [
       '@semantic-release/github',
       {
+        successComment: false,
+        failTitle: false,
         assets: ['dist/**'],
       },
     ],
