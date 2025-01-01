@@ -32,9 +32,9 @@ struct Context
     Context() : config()
     {
         config = {
-            12,   // numPhases
+            3,    // numPhases
             1,    // signalFrequency
-            500,  // samplingFrequency
+            50,   // samplingFrequency
             1000, // amplitude
             0,    // offset
             0.0,  // errorPercentage
