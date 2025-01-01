@@ -1,0 +1,9 @@
+{
+  "projectName": "spie-firmware",
+  "projectOwner": "ronsonos",
+  "commit": true,
+  "linkToUsage": true,
+  "skipCi": true,
+  "repoType": "github",
+  "commitConvention": "angular"
+}
