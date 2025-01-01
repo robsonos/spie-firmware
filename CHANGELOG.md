@@ -1,3 +1,20 @@
+# [1.1.0](https://github.com/robsonos/spie-firmware/compare/v1.0.0...v1.1.0) (2025-01-01)
+
+
+* Merge branch 'main' into dev ([45f972c](https://github.com/robsonos/spie-firmware/commit/45f972c3bb33296967efa7becb6af89593ddd549))
+* Merge pull request [#3](https://github.com/robsonos/spie-firmware/issues/3) from robsonos/dev ([358d6db](https://github.com/robsonos/spie-firmware/commit/358d6dbc21d3ecf40c69436de5f062e49959369d))
+
+
+### Build System :hammer_and_wrench:
+
+* fix file terminator issues ([bb87c4e](https://github.com/robsonos/spie-firmware/commit/bb87c4e7834297ddfb99e77163f011a61af186fc))
+* fix issue with @semantic-release/github exceeding rate limits ([6f44461](https://github.com/robsonos/spie-firmware/commit/6f44461d60bbb9026f53f0afe86d7a4faf3a16e2))
+
+
+### Features :sparkles:
+
+* add dist files to release ([d5b482e](https://github.com/robsonos/spie-firmware/commit/d5b482ece7800e5c205c06a4a9701252f5835a6e))
+
 # 1.0.0 (2025-01-01)
 
 
